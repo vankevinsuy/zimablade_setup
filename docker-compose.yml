@@ -50,6 +50,8 @@ services:
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:4.6.6
     container_name: qbittorrent
+    env_file:
+      - .env
     environment:
       - PUID=1000
       - PGID=1000
