@@ -1,0 +1,17 @@
+services:
+###############
+# FILEBROWSER
+###############
+  filebrowser:
+    image: filebrowser/filebrowser:v2-s6
+    container_name: filebrowser
+    volumes:
+      - ./my_stuff:/srv
+    ports:
+      - 1900:80
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 500m
