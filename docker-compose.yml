@@ -6,7 +6,7 @@ services:
     image: filebrowser/filebrowser:v2-s6
     container_name: filebrowser
     volumes:
-      - ${FILEBROWSER_DATA}:/srv
+      - ${FILEBROWSER_VOLUME}:/srv
     env_file:
       - .env
     ports:
@@ -15,5 +15,57 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.2'
+          cpus: '0.5'
+          memory: 500m
+
+###############
+# PLEX
+###############
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    env_file:
+      - .env
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - VERSION=docker
+    volumes:
+      - ${PLEX_VOLUME}/config:/config
+      - ${PLEX_VOLUME}/media:/media
+    ports:
+      - 32400:32400
+      - 1900:1900/udp
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+
+###############
+# QBITTORRENT
+###############
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:4.6.6
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8096
+      - TORRENTING_PORT=6881
+    volumes:
+      - ${QBITTORRENT_VOLUME}/config:/config
+      - ${PLEX_VOLUME}/media:/downloads
+    ports:
+      - 8096:8096
+      - 6881:6881
+      - 6881:6881/udp
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
           memory: 500m
