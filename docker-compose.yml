@@ -6,7 +6,9 @@ services:
     image: filebrowser/filebrowser:v2-s6
     container_name: filebrowser
     volumes:
-      - ./my_stuff:/srv
+      - ${FILEBROWSER_DATA}:/srv
+    env_file:
+      - .env
     ports:
       - 1900:80
     restart: always
