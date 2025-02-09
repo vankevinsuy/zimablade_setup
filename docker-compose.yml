@@ -24,6 +24,8 @@ services:
     volumes:
       - ${NGINX_PROXY_MANAGER_VOLUME}/data:/data
       - ${NGINX_PROXY_MANAGER_VOLUME}/letsencrypt:/etc/letsencrypt
+    networks:
+      - zimablade
 
 ###############
 # FILEBROWSER
@@ -43,6 +45,8 @@ services:
         limits:
           cpus: '0.5'
           memory: 500m
+    networks:
+      - zimablade
 
 ###############
 # PLEX
@@ -70,6 +74,8 @@ services:
         limits:
           cpus: '1'
           memory: 4G
+    networks:
+      - zimablade
 
 ###############
 # QBITTORRENT
@@ -98,3 +104,10 @@ services:
         limits:
           cpus: '0.5'
           memory: 500m
+    networks:
+      - zimablade
+
+
+networks:
+  zimablade:
+    driver: bridge
