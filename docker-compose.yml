@@ -31,6 +31,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
       - VERSION=docker
+      - PLEX_CLAIM= #https://account.plex.tv/en-GB/claim
     volumes:
       - ${PLEX_VOLUME}/config:/config
       - ${PLEX_VOLUME}/media:/media
