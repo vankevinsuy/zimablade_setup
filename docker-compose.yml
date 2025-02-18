@@ -3,14 +3,6 @@ services:
 ###############
 # NGINX
 ###############
-  # nginx:
-  #   image: nginx
-  #   container_name: nginx
-  #   volumes:
-  #     - ./nginx.conf:/etc/nginx/nginx.conf
-  #   ports:
-  #   - "8080:80"
-
   nginx:
     image: 'jc21/nginx-proxy-manager:latest'
     container_name: nginx
@@ -37,8 +29,6 @@ services:
       - ${FILEBROWSER_VOLUME}:/srv
     env_file:
       - .env
-    # ports:
-      # - 1900:80
     restart: always
     deploy:
       resources:
@@ -61,13 +51,10 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
       - VERSION=docker
-      - PLEX_CLAIM=claim-akLkjxiMwonFxwUifr4n #https://account.plex.tv/en-GB/claim
+      - PLEX_CLAIM= #https://account.plex.tv/en-GB/claim
     volumes:
       - ${PLEX_VOLUME}/config:/config
       - ${PLEX_VOLUME}/media:/media
-    # ports:
-      # - 32400:32400
-      # - 1900:1900/udp
     restart: always
     deploy:
       resources:
@@ -81,7 +68,7 @@ services:
 # QBITTORRENT
 ###############
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:4.6.6
+    image: lscr.io/linuxserver/qbittorrent:5.0.3
     container_name: qbittorrent
     env_file:
       - .env
@@ -94,10 +81,6 @@ services:
     volumes:
       - ${QBITTORRENT_VOLUME}/config:/config
       - ${PLEX_VOLUME}/media:/downloads
-    # ports:
-      # - 8096:8096
-      # - 6881:6881
-      # - 6881:6881/udp
     restart: always
     deploy:
       resources:
@@ -106,7 +89,7 @@ services:
           memory: 500m
     networks:
       - zimablade
-
+    # network_mode: "service:gluetun"
 
 networks:
   zimablade:
